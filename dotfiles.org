@@ -4,7 +4,42 @@
 #+OPTIONS: toc:3 num:nil
 #+STYLE: <link rel="stylesheet" type="text/css" href="http://thomasf.github.io/solarized-css/solarized-light.min.css" />
 
-* Git
+* Installation
+  :PROPERTIES:
+  :CUSTOM_ID: installation
+  :END:
+  #+begin_src sh :tangle install.sh :shebang #!/bin/bash
+    set -o nounset
+    set -o errexit
+
+    cd $(dirname $0)
+    export DOTFILES=$(pwd)
+
+    function backup {
+        local FILE=$1
+        if [ -L $FILE ]; then
+            rm $FILE
+        elif [ -e $FILE ]; then
+            mv $FILE $FILE.bak
+        fi
+    }
+
+    function link_with_backup {
+        local FILENAME=$1
+        local SOURCE=$DOTFILES/$FILENAME
+        local TARGET=$HOME/$FILENAME
+        backup $TARGET
+        ln -sf $SOURCE $TARGET
+    }
+
+    # git
+    link_with_backup .gitconfig
+
+    # zsh
+    link_with_backup .zsh
+    link_with_backup .zshrc
+  #+end_src
+* git
   :PROPERTIES:
   :CUSTOM_ID: git
   :END:
