@@ -1,0 +1,428 @@
+#+TITLE: Aaron Bedra's System Configuration Files
+#+AUTHOR: Aaron Bedra
+#+EMAIL: aaron@aaronbedra.com
+#+OPTIONS: toc:3 num:nil
+#+STYLE: <link rel="stylesheet" type="text/css" href="http://thomasf.github.io/solarized-css/solarized-light.min.css" />
+
+* Git
+  :PROPERTIES:
+  :CUSTOM_ID: git
+  :END:
+** .gitconfig
+   :PROPERTIES:
+   :CUSTOM_ID: gitconfig
+   :END:
+#+begin_src conf :tangle .git
+  [user]
+          name = Aaron Bedra
+          email = aaron@aaronbedra.com
+  [color]
+          branch = auto
+          diff = auto
+          status = auto
+  [color "branch"]
+          current = yellow reverse
+          local = yellow
+          remote = green
+  [color "diff"]
+          meta = yellow bold
+          frag = magenta bold
+          old = red bold
+          new = green bold
+  [color "status"]
+          added = green
+          changed = yellow
+          untracked = cyan
+  [merge]
+          tool = opendiff
+  [core]
+          legacyheaders = false
+  [repack]
+          usedeltabaseoffset = true
+  [alias]
+          ci = commit
+          co = checkout
+          st = status
+          ch = cherry -v origin
+  [push]
+          default = tracking
+  [github]
+          user = abedra
+  [diff "ruby"]
+          funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
+  [core]
+          pager = most +s +'/---'
+#+end_src
+
+* zsh
+  :PROPERTIES:
+  :CUSTOM_ID: zsh
+  :END:
+** .zshrc
+   :PROPERTIES:
+   :CUSTOM_ID: zshrc
+   :END:
+   #+begin_src shell-script :tangle .zshrc :padline no
+     source ~/.zsh/bindkeys.zsh
+     source ~/.zsh/exports.zsh
+     source ~/.zsh/setopt.zsh
+     source ~/.zsh/functions.zsh
+     source ~/.zsh/history.zsh
+     source ~/.zsh/prompt.zsh
+     source ~/.zsh/completion.zsh
+     source ~/.zsh/zsh_hooks.zsh
+     source ~/.zsh/command_coloring.zsh
+
+     [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+     calPATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+   #+end_src
+** bindkeys
+   :PROPERTIES:
+   :CUSTOM_ID: bindkeys
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/bindkeys.zsh :padline no
+     # To see the key combo you want to use just do:
+     # cat > /dev/null
+     # And press it
+
+     bindkey "^K"      kill-whole-line                      # ctrl-k
+     bindkey "^R"      history-incremental-search-backward  # ctrl-r
+     bindkey "^A"      beginning-of-line                    # ctrl-a
+     bindkey "^E"      end-of-line                          # ctrl-e
+     bindkey "[B"      history-search-forward               # down arrow
+     bindkey "[A"      history-search-backward              # up arrow
+     bindkey "^D"      delete-char                          # ctrl-d
+     bindkey "^F"      forward-char                         # ctrl-f
+     bindkey "^B"      backward-char                        # ctrl-b
+     bindkey -e   # Default to standard Emacs bindings, regardless of editor string
+   #+end_src
+** exports
+   :PROPERTIES:
+   :CUSTOM_ID: exports
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/exports.zsh :padline no
+     export CDPATH=.:~/src:~/src/personal:~/src/opensource:~/src/configs:~/src/groupon:~/Documents
+     export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+     export TERM=xterm-256color
+     export LSCOLORS=gxfxcxdxbxegedabagacad
+     export CLICOLOR=1
+     export GREP_OPTIONS='--color=auto'
+     export GREP_COLOR='3;33'
+     export PAGER=most
+     export EDITOR="emacs -nw"
+     export PKG_CONFIG_PATH=/usr/local/Library/ENV/pkgconfig/10.9
+     export JAVA_HOME=`/usr/libexec/java_home`
+   #+end_src
+** setopt
+   :PROPERTIES:
+   :CUSTOM_ID: setopt
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/setopt.zsh :padline no
+     setopt AUTO_CD
+     setopt CORRECT
+     setopt INTERACTIVE_COMMENTS
+     setopt APPEND_HISTORY
+     setopt INC_APPEND_HISTORY
+     setopt HIST_IGNORE_DUPS
+     setopt HIST_FIND_NO_DUPS
+     setopt HIST_REDUCE_BLANKS
+     setopt EXTENDED_HISTORY
+     setopt SHARE_HISTORY
+     setopt COMPLETE_IN_WORD
+     setopt ALWAYS_TO_END
+     setopt PROMPT_SUBST
+     unsetopt MENU_COMPLETE
+     setopt AUTO_MENU
+   #+end_src
+** functions
+   :PROPERTIES:
+   :CUSTOM_ID: functions
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/functions.zsh :padline no
+     function zsh_recompile() {
+         autoload -U zrecompile
+         [[ -f ~/.zshrc ]] && zrecompile -p ~/.zshrc
+         [[ -f ~/.zshrc.zwc.old ]] && rm -f ~/.zshrc.zwc.old
+
+         for f in ~/.zsh/**/*.zsh; do
+             [[ -f $f ]] && zrecompile -p $f
+             [[ -f $f.zwc.old ]] && rm -f $f.zwc.old
+         done
+
+         [[ -f ~/.zcompdump ]] && zrecompile -p ~/.zcompdump
+         [[ -f ~/.zcompdump.zwc.old ]] && rm -f ~/.zcompdump.zwc.old
+
+         source ~/.zshrc
+     }
+
+     function extract {
+         echo Extracting $1 ...
+         if [ -f $1 ] ; then
+             case $1 in
+                 ,*.tar.bz2)   tar xjf $1  ;;
+                 ,*.tar.gz)    tar xzf $1  ;;
+                 ,*.bz2)       bunzip2 $1  ;;
+                 ,*.rar)       rar x $1    ;;
+                 ,*.gz)        gunzip $1   ;;
+                 ,*.tar)       tar xf $1   ;;
+                 ,*.tbz2)      tar xjf $1  ;;
+                 ,*.tgz)       tar xzf $1  ;;
+                 ,*.zip)       unzip $1   ;;
+                 ,*.Z)         uncompress $1  ;;
+                 ,*.7z)        7z x $1  ;;
+                 ,*)           echo "'$1' cannot be extracted via extract()" ;;
+             esac
+         else
+             echo "'$1' is not a valid file"
+         fi
+     }
+   #+end_src
+** history
+   :PROPERTIES:
+   :CUSTOM_ID: history
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/history.zsh :padline no
+     # HISTORY
+     HISTSIZE=3000
+     SAVEHIST=3000
+     HISTFILE=~/.zsh_history
+   #+end_src
+** prompt
+   :PROPERTIES:
+   :CUSTOM_ID: prompt
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/prompt.zsh :padline no
+     function parse_git_branch() {
+         git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\/git:\1/'
+     }
+
+     function git_prompt_info() {
+         local ref=$(git symbolic-ref HEAD 2> /dev/null)
+         local gitst="$(git status 2> /dev/null)"
+         local pairname=$(git config --get user.initials)
+         if [[ ${pairname} == '' ]]; then
+             pairname='(solo)'
+         else
+             pairname="($pairname)"
+         fi
+
+         if [[ -f .git/MERGE_HEAD ]]; then
+             if [[ ${gitst} =~ "unmerged" ]]; then
+                 gitstatus=" %{$fg[red]%}unmerged%{$reset_color%}"
+             else
+                 gitstatus=" %{$fg[green]%}merged%{$reset_color%}"
+             fi
+         elif [[ ${gitst} =~ "Changes to be committed" ]]; then
+             gitstatus=" %{$fg[blue]%}♺%{$reset_color%}"
+         elif [[ ${gitst} =~ "use \"git add" ]]; then
+             gitstatus=" %{$fg[red]%}☣%{$reset_color%}"
+         elif [[ -n `git checkout HEAD 2> /dev/null | grep ahead` ]]; then
+             gitstatus=" %{$fg[yellow]%}☃%{$reset_color%}"
+         else
+             gitstatus=' '
+         fi
+         if [[ -n $ref ]]; then
+             echo "%{$fg_bold[green]%}/${ref#refs/heads/}%{$reset_color%}$gitstatus $pairname"
+         fi
+     }
+
+     export PS1='%{$reset_color$fg[gray]%}%2~%{$reset_color$bold_color$fg[green]%}$(git_prompt_info)>%{$reset_color%} '
+   #+end_src
+** completion
+   :PROPERTIES:
+   :CUSTOM_ID: completion
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/completion.zsh :padline no
+     autoload -U compinit && compinit
+     zmodload -i zsh/complist
+
+     # man zshcontrib
+     zstyle ':vcs_info:*' actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+     zstyle ':vcs_info:*' formats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+     zstyle ':vcs_info:*' enable git #cvs svn
+
+     # Enable completion caching, use rehash to clear
+     zstyle ':completion::complete:*' use-cache on
+     zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
+
+     # Fallback to built in ls colors
+     zstyle ':completion:*' list-colors ''
+
+     # Make the list prompt friendly
+     zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+
+     # Make the selection prompt friendly when there are a lot of choices
+     zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+
+     # Add simple colors to kill
+     zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
+     # list of completers to use
+     zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
+
+     zstyle ':completion:*' menu select=1 _complete _ignored _approximate
+
+     # insert all expansions for expand completer
+     # zstyle ':completion:*:expand:*' tag-order all-expansions
+
+     # match uppercase from lowercase
+     zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+     # offer indexes before parameters in subscripts
+     zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+     # formatting and messages
+     zstyle ':completion:*' verbose yes
+     zstyle ':completion:*:descriptions' format '%B%d%b'
+     zstyle ':completion:*:messages' format '%d'
+     zstyle ':completion:*:warnings' format 'No matches for: %d'
+     zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+     zstyle ':completion:*' group-name ''
+
+     # ignore completion functions (until the _ignored completer)
+     zstyle ':completion:*:functions' ignored-patterns '_*'
+     zstyle ':completion:*:scp:*' tag-order files users 'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'
+     zstyle ':completion:*:scp:*' group-order files all-files users hosts-domain hosts-host hosts-ipaddr
+     zstyle ':completion:*:ssh:*' tag-order users 'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'
+     zstyle ':completion:*:ssh:*' group-order hosts-domain hosts-host users hosts-ipaddr
+     zstyle '*' single-ignored show
+   #+end_src
+** hooks
+   :PROPERTIES:
+   :CUSTOM_ID: hooks
+   :END:
+   #+begin_src shell-script :mkdirp yes :tangle .zsh/zsh_hooks.zsh :padline no
+     function precmd {
+         # Put the string "hostname::/full/directory/path" in the title bar:
+         echo -ne "\e]2;$PWD\a"
+
+         # Put the parentdir/currentdir in the tab
+         echo -ne "\e]1;$PWD:h:t/$PWD:t\a"
+     }
+
+     function set_running_app {
+         printf "\e]1; $PWD:t:$(history $HISTCMD | cut -b7- ) \a"
+     }
+
+     function preexec {
+         set_running_app
+     }
+
+     function postexec {
+         set_running_app
+     }
+   #+end_src
+** command-coloring
+   :PROPERTIES:
+   :CUSTOM_ID: command-coloring
+   :END:
+  #+begin_src shell-script :mkdirp yes :tangle .zsh/command_coloring.zsh :padline no
+    #!/usr/bin/env zsh
+    # Copyleft 2010 zsh-syntax-highlighting contributors
+    # http://github.com/nicoulaj/zsh-syntax-highlighting
+    # All wrongs reserved.
+
+    # Token types styles.
+    # See http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#SEC135
+    ZLE_RESERVED_WORD_STYLE='fg=yellow,bold'
+    ZLE_ALIAS_STYLE='fg=green,bold'
+    ZLE_BUILTIN_STYLE='fg=green,bold'
+    ZLE_FUNCTION_STYLE='fg=green,bold'
+    ZLE_COMMAND_STYLE='fg=green,bold'
+    ZLE_PATH_STYLE='fg=white,underline'
+    ZLE_COMMAND_UNKNOWN_TOKEN_STYLE='fg=red,bold'
+
+    ZLE_HYPHEN_CLI_OPTION='fg=yellow,bold'
+    ZLE_DOUBLE_HYPHEN_CLI_OPTION='fg=yellow,bold'
+    ZLE_SINGLE_QUOTED='fg=magenta,bold'
+    ZLE_DOUBLE_QUOTED='fg=magenta,bold'
+    ZLE_BACK_QUOTED='fg=cyan,bold'
+    ZLE_GLOBING='fg=blue,bold'
+
+    ZLE_DEFAULT='fg=white,normal'
+
+    ZLE_TOKENS_FOLLOWED_BY_COMMANDS=('|' '||' ';' '&' '&&' 'sudo' 'start' 'time' 'strace' 'noglob' 'command' 'builtin')
+
+    _check_path() {
+        [[ -z $arg ]] && return 1
+        [[ -e $arg ]] && return 0
+        [[ ! -e ${arg:h} ]] && return 1
+        [[ ${#BUFFER} == $end_pos && -n $(print $arg*(N)) ]] && return 0
+        return 1
+    }
+
+    # Recolorize the current ZLE buffer.
+    colorize-zle-buffer() {
+        setopt localoptions extendedglob
+        region_highlight=()
+        colorize=true
+        start_pos=0
+        for arg in ${(z)BUFFER}; do
+            ((start_pos+=${#BUFFER[$start_pos+1,-1]}-${#${BUFFER[$start_pos+1,-1]##[[:space:]]#}}))
+            ((end_pos=$start_pos+${#arg}))
+            if $colorize; then
+                colorize=false
+                res=$(LC_ALL=C builtin type -w $arg 2>/dev/null)
+                case $res in
+                    ,*': reserved')  style=$ZLE_RESERVED_WORD_STYLE;;
+                    ,*': alias')     style=$ZLE_ALIAS_STYLE;;
+                    ,*': builtin')   style=$ZLE_BUILTIN_STYLE;;
+                    ,*': function')  style=$ZLE_FUNCTION_STYLE;;
+                    ,*': command')   style=$ZLE_COMMAND_STYLE;;
+                    ,*)
+                        if _check_path; then
+                            style=$ZLE_PATH_STYLE
+                        else
+                            style=$ZLE_COMMAND_UNKNOWN_TOKEN_STYLE
+                        fi
+                        ;;
+                esac
+            else
+                case $arg in
+                    '--'*) style=$ZLE_DOUBLE_HYPHEN_CLI_OPTION;;
+                    '-'*) style=$ZLE_HYPHEN_CLI_OPTION;;
+                    "'"*"'") style=$ZLE_SINGLE_QUOTED;;
+                    '"'*'"') style=$ZLE_DOUBLE_QUOTED;;
+                    '`'*'`') style=$ZLE_BACK_QUOTED;;
+                    ,*"*"*) style=$ZLE_GLOBING;;
+                    ,*)
+                        style=$ZLE_DEFAULT
+                        _check_path && style=$ZLE_PATH_STYLE
+                        ;;
+                esac
+            fi
+            region_highlight+=("$start_pos $end_pos $style")
+            [[ ${${ZLE_TOKENS_FOLLOWED_BY_COMMANDS[(r)${arg//|/\|}]:-}:+yes} = 'yes' ]] && colorize=true
+            start_pos=$end_pos
+        done
+    }
+
+    # Bind the function to ZLE events.
+    ZLE_COLORED_FUNCTIONS=(
+        self-insert
+        delete-char
+        backward-delete-char
+        kill-word
+        backward-kill-word
+        up-line-or-history
+        down-line-or-history
+        beginning-of-history
+        end-of-history
+        undo
+        redo
+        yank
+    )
+
+    for f in $ZLE_COLORED_FUNCTIONS; do
+        eval "$f() { zle .$f && colorize-zle-buffer } ; zle -N $f"
+    done
+
+    # Expand or complete hack
+
+    # create an expansion widget which mimics the original "expand-or-complete" (you can see the default setup using "zle -l -L")
+    zle -C orig-expand-or-complete .expand-or-complete _main_complete
+
+    # use the orig-expand-or-complete inside the colorize function (for some reason, using the ".expand-or-complete" widget doesn't work the same)
+    expand-or-complete() { builtin zle orig-expand-or-complete && colorize-zle-buffer }
+    zle -N expand-or-complete
+  #+end_src
