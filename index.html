@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Aaron Bedra's System Configuration Files</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="Aaron Bedra's System Configuration Files"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-08-16T17:31-0500"/>
+<meta name="author" content="Aaron Bedra"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://thomasf.github.io/solarized-css/solarized-light.min.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">Aaron Bedra's System Configuration Files</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#git">git</a>
+<ul>
+<li><a href="#gitconfig">.gitconfig</a></li>
+</ul>
+</li>
+<li><a href="#zsh">zsh</a>
+<ul>
+<li><a href="#zshrc">.zshrc</a></li>
+<li><a href="#colors">colors</a></li>
+<li><a href="#bindkeys">bindkeys</a></li>
+<li><a href="#exports">exports</a></li>
+<li><a href="#setopt">setopt</a></li>
+<li><a href="#functions">functions</a></li>
+<li><a href="#history">history</a></li>
+<li><a href="#prompt">prompt</a></li>
+<li><a href="#completion">completion</a></li>
+<li><a href="#hooks">hooks</a></li>
+<li><a href="#command-coloring">command-coloring</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-installation" class="outline-2">
+<h2 id="installation"><a name="sec-1" id="sec-1"></a>Installation</h2>
+<div class="outline-text-2" id="text-installation">
+
+
+
+
+<pre class="src src-sh"><span style="color: #657b83; font-weight: bold;">set</span> -o nounset
+<span style="color: #657b83; font-weight: bold;">set</span> -o errexit
+
+<span style="color: #657b83; font-weight: bold;">cd</span> $(dirname $<span style="color: #268bd2;">0</span>)
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">DOTFILES</span>=$(<span style="color: #657b83; font-weight: bold;">pwd</span>)
+
+<span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">backup</span> {
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">FILE</span>=$<span style="color: #268bd2;">1</span>
+    <span style="color: #859900; font-weight: bold;">if</span> [ -L $<span style="color: #268bd2;">FILE</span> ]; <span style="color: #859900; font-weight: bold;">then</span>
+        rm $<span style="color: #268bd2;">FILE</span>
+    <span style="color: #859900; font-weight: bold;">elif</span> [ -e $<span style="color: #268bd2;">FILE</span> ]; <span style="color: #859900; font-weight: bold;">then</span>
+        mv $<span style="color: #268bd2;">FILE</span> $<span style="color: #268bd2;">FILE</span>.bak
+    <span style="color: #859900; font-weight: bold;">fi</span>
+}
+
+<span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">link_with_backup</span> {
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">FILENAME</span>=$<span style="color: #268bd2;">1</span>
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">SOURCE</span>=$<span style="color: #268bd2;">DOTFILES</span>/$<span style="color: #268bd2;">FILENAME</span>
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">TARGET</span>=$<span style="color: #268bd2;">HOME</span>/$<span style="color: #268bd2;">FILENAME</span>
+    backup $<span style="color: #268bd2;">TARGET</span>
+    ln -sf $<span style="color: #268bd2;">SOURCE</span> $<span style="color: #268bd2;">TARGET</span>
+}
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">git</span>
+link_with_backup .gitconfig
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zsh</span>
+link_with_backup .zsh
+link_with_backup .zshrc
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-git" class="outline-2">
+<h2 id="git"><a name="sec-2" id="sec-2"></a>git</h2>
+<div class="outline-text-2" id="text-git">
+
+
+</div>
+
+<div id="outline-container-gitconfig" class="outline-3">
+<h3 id="gitconfig"><a name="sec-2-1" id="sec-2-1"></a>.gitconfig</h3>
+<div class="outline-text-3" id="text-gitconfig">
+
+
+   <strong><i>.gitconfig</i></strong>
+
+<pre class="src src-conf">[<span style="color: #b58900;">user</span>]
+        <span style="color: #268bd2;">name</span> = Aaron Bedra
+        <span style="color: #268bd2;">email</span> = aaron@aaronbedra.com
+[<span style="color: #b58900;">color</span>]
+        <span style="color: #268bd2;">branch</span> = auto
+        <span style="color: #268bd2;">diff</span> = auto
+        <span style="color: #268bd2;">status</span> = auto
+[color <span style="color: #2aa198;">"branch"</span>]
+        <span style="color: #268bd2;">current</span> = yellow reverse
+        <span style="color: #268bd2;">local</span> = yellow
+        <span style="color: #268bd2;">remote</span> = green
+[color <span style="color: #2aa198;">"diff"</span>]
+        <span style="color: #268bd2;">meta</span> = yellow bold
+        <span style="color: #268bd2;">frag</span> = magenta bold
+        <span style="color: #268bd2;">old</span> = red bold
+        <span style="color: #268bd2;">new</span> = green bold
+[color <span style="color: #2aa198;">"status"</span>]
+        <span style="color: #268bd2;">added</span> = green
+        <span style="color: #268bd2;">changed</span> = yellow
+        <span style="color: #268bd2;">untracked</span> = cyan
+[<span style="color: #b58900;">merge</span>]
+        <span style="color: #268bd2;">tool</span> = opendiff
+[<span style="color: #b58900;">core</span>]
+        <span style="color: #268bd2;">legacyheaders</span> = false
+[<span style="color: #b58900;">repack</span>]
+        <span style="color: #268bd2;">usedeltabaseoffset</span> = true
+[<span style="color: #b58900;">alias</span>]
+        <span style="color: #268bd2;">ci</span> = commit
+        <span style="color: #268bd2;">co</span> = checkout
+        <span style="color: #268bd2;">st</span> = status
+        <span style="color: #268bd2;">ch</span> = cherry -v origin
+[<span style="color: #b58900;">push</span>]
+        <span style="color: #268bd2;">default</span> = tracking
+[<span style="color: #b58900;">github</span>]
+        <span style="color: #268bd2;">user</span> = abedra
+[diff <span style="color: #2aa198;">"ruby"</span>]
+        <span style="color: #268bd2;">funcname</span> = ^ *\\(\\(class\\|module\\|def\\) .*\\)
+[<span style="color: #b58900;">core</span>]
+        <span style="color: #268bd2;">pager</span> = most +s +<span style="color: #2aa198;">'/---'</span>
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-zsh" class="outline-2">
+<h2 id="zsh"><a name="sec-3" id="sec-3"></a>zsh</h2>
+<div class="outline-text-2" id="text-zsh">
+
+
+</div>
+
+<div id="outline-container-zshrc" class="outline-3">
+<h3 id="zshrc"><a name="sec-3-1" id="sec-3-1"></a>.zshrc</h3>
+<div class="outline-text-3" id="text-zshrc">
+
+
+   <strong><i>.zshrc</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/colors.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/bindkeys.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/exports.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/setopt.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/functions.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/history.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/prompt.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/completion.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/zsh_hooks.zsh
+<span style="color: #657b83; font-weight: bold;">source</span> ~/.zsh/command_coloring.zsh
+
+[[ -s $<span style="color: #268bd2;">HOME</span>/.rvm/scripts/rvm ]] &amp;&amp; <span style="color: #657b83; font-weight: bold;">source</span> $<span style="color: #268bd2;">HOME</span>/.rvm/scripts/rvm
+
+<span style="color: #268bd2;">PATH</span>=$<span style="color: #268bd2;">PATH</span>:$<span style="color: #268bd2;">HOME</span>/.rvm/bin <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Add RVM to PATH for scripting</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-colors" class="outline-3">
+<h3 id="colors"><a name="sec-3-2" id="sec-3-2"></a>colors</h3>
+<div class="outline-text-3" id="text-colors">
+
+
+   <strong><i>.zsh/colors.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #657b83; font-weight: bold;">autoload</span> colors; colors
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The variables are wrapped in %{%}. This should be the case for every</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">variable that does not contain space.</span>
+<span style="color: #859900; font-weight: bold;">for</span> COLOR<span style="color: #859900; font-weight: bold;"> in</span> RED GREEN YELLOW BLUE MAGENTA CYAN BLACK WHITE; <span style="color: #859900; font-weight: bold;">do</span>
+  <span style="color: #657b83; font-weight: bold;">eval</span> PR_$<span style="color: #268bd2;">COLOR</span>=<span style="color: #2aa198;">'%{$fg_no_bold[${(L)COLOR}]%}'</span>
+  <span style="color: #657b83; font-weight: bold;">eval</span> PR_BOLD_$<span style="color: #268bd2;">COLOR</span>=<span style="color: #2aa198;">'%{$fg_bold[${(L)COLOR}]%}'</span>
+<span style="color: #859900; font-weight: bold;">done</span>
+
+<span style="color: #657b83; font-weight: bold;">eval</span> <span style="color: #268bd2;">RESET</span>=<span style="color: #2aa198;">'$reset_color'</span>
+<span style="color: #657b83; font-weight: bold;">export</span> PR_RED PR_GREEN PR_YELLOW PR_BLUE PR_WHITE PR_BLACK
+<span style="color: #657b83; font-weight: bold;">export</span> PR_BOLD_RED PR_BOLD_GREEN PR_BOLD_YELLOW PR_BOLD_BLUE
+<span style="color: #657b83; font-weight: bold;">export</span> PR_BOLD_WHITE PR_BOLD_BLACK
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Clear LSCOLORS</span>
+<span style="color: #657b83; font-weight: bold;">unset</span> LSCOLORS
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Main change, you can see directories on a dark background</span>
+<span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">expor tLSCOLORS=gxfxcxdxbxegedabagacad</span>
+
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">CLICOLOR</span>=1
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">LS_COLORS</span>=exfxcxdxbxegedabagacad
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-bindkeys" class="outline-3">
+<h3 id="bindkeys"><a name="sec-3-3" id="sec-3-3"></a>bindkeys</h3>
+<div class="outline-text-3" id="text-bindkeys">
+
+
+   <strong><i>.zsh/bindkeys.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">To see the key combo you want to use just do:</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">cat &gt; /dev/null</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">And press it</span>
+
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"^K"</span>      kill-whole-line                      <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ctrl-k</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"^R"</span>      history-incremental-search-backward  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ctrl-r</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"^A"</span>      beginning-of-line                    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ctrl-a</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"^E"</span>      end-of-line                          <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ctrl-e</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"[B"</span>      history-search-forward               <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">down arrow</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"[A"</span>      history-search-backward              <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">up arrow</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"^D"</span>      delete-char                          <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ctrl-d</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"^F"</span>      forward-char                         <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ctrl-f</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> <span style="color: #2aa198;">"^B"</span>      backward-char                        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ctrl-b</span>
+<span style="color: #657b83; font-weight: bold;">bindkey</span> -e   <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Default to standard Emacs bindings, regardless of editor string</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-exports" class="outline-3">
+<h3 id="exports"><a name="sec-3-4" id="sec-3-4"></a>exports</h3>
+<div class="outline-text-3" id="text-exports">
+
+
+   <strong><i>.zsh/exports.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">CDPATH</span>=.:~/src:~/src/personal:~/src/opensource:~/src/configs:~/src/groupon:~/Documents
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">PATH</span>=/usr/local/bin:/usr/local/sbin:$<span style="color: #268bd2;">PATH</span>
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">TERM</span>=xterm-256color
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">LSCOLORS</span>=gxfxcxdxbxegedabagacad
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">CLICOLOR</span>=1
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">GREP_OPTIONS</span>=<span style="color: #2aa198;">'--color=auto'</span>
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">GREP_COLOR</span>=<span style="color: #2aa198;">'3;33'</span>
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">PAGER</span>=most
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">EDITOR</span>=<span style="color: #2aa198;">"emacs -nw"</span>
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">PKG_CONFIG_PATH</span>=/usr/local/Library/ENV/pkgconfig/10.9
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">JAVA_HOME</span>=<span style="color: #6c71c4; font-weight: bold;">`/usr/libexec/java_home`</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-setopt" class="outline-3">
+<h3 id="setopt"><a name="sec-3-5" id="sec-3-5"></a>setopt</h3>
+<div class="outline-text-3" id="text-setopt">
+
+
+   <strong><i>.zsh/setopt.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #657b83; font-weight: bold;">setopt</span> AUTO_CD
+<span style="color: #657b83; font-weight: bold;">setopt</span> CORRECT
+<span style="color: #657b83; font-weight: bold;">setopt</span> INTERACTIVE_COMMENTS
+<span style="color: #657b83; font-weight: bold;">setopt</span> APPEND_HISTORY
+<span style="color: #657b83; font-weight: bold;">setopt</span> INC_APPEND_HISTORY
+<span style="color: #657b83; font-weight: bold;">setopt</span> HIST_IGNORE_DUPS
+<span style="color: #657b83; font-weight: bold;">setopt</span> HIST_FIND_NO_DUPS
+<span style="color: #657b83; font-weight: bold;">setopt</span> HIST_REDUCE_BLANKS
+<span style="color: #657b83; font-weight: bold;">setopt</span> EXTENDED_HISTORY
+<span style="color: #657b83; font-weight: bold;">setopt</span> SHARE_HISTORY
+<span style="color: #657b83; font-weight: bold;">setopt</span> COMPLETE_IN_WORD
+<span style="color: #657b83; font-weight: bold;">setopt</span> ALWAYS_TO_END
+<span style="color: #657b83; font-weight: bold;">setopt</span> PROMPT_SUBST
+<span style="color: #657b83; font-weight: bold;">unsetopt</span> MENU_COMPLETE
+<span style="color: #657b83; font-weight: bold;">setopt</span> AUTO_MENU
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-functions" class="outline-3">
+<h3 id="functions"><a name="sec-3-6" id="sec-3-6"></a>functions</h3>
+<div class="outline-text-3" id="text-functions">
+
+
+   <strong><i>.zsh/functions.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">zsh_recompile</span>() {
+    <span style="color: #657b83; font-weight: bold;">autoload</span> -U zrecompile
+    [[ -f ~/.zshrc ]] &amp;&amp; zrecompile -p ~/.zshrc
+    [[ -f ~/.zshrc.zwc.old ]] &amp;&amp; rm -f ~/.zshrc.zwc.old
+
+    <span style="color: #859900; font-weight: bold;">for</span> f<span style="color: #859900; font-weight: bold;"> in</span> ~/.zsh/**/*.zsh; <span style="color: #859900; font-weight: bold;">do</span>
+        [[ -f $<span style="color: #268bd2;">f</span> ]] &amp;&amp; zrecompile -p $<span style="color: #268bd2;">f</span>
+        [[ -f $<span style="color: #268bd2;">f</span>.zwc.old ]] &amp;&amp; rm -f $<span style="color: #268bd2;">f</span>.zwc.old
+    <span style="color: #859900; font-weight: bold;">done</span>
+
+    [[ -f ~/.zcompdump ]] &amp;&amp; zrecompile -p ~/.zcompdump
+    [[ -f ~/.zcompdump.zwc.old ]] &amp;&amp; rm -f ~/.zcompdump.zwc.old
+
+    <span style="color: #657b83; font-weight: bold;">source</span> ~/.zshrc
+}
+
+<span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">extract</span> {
+    <span style="color: #657b83; font-weight: bold;">echo</span> Extracting $<span style="color: #268bd2;">1</span> ...
+    <span style="color: #859900; font-weight: bold;">if</span> [ -f $<span style="color: #268bd2;">1</span> ] ; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #859900; font-weight: bold;">case</span> $<span style="color: #268bd2;">1</span><span style="color: #859900; font-weight: bold;"> in</span>
+            *.tar.bz2)   tar xjf $<span style="color: #268bd2;">1</span>  ;;
+            *.tar.gz)    tar xzf $<span style="color: #268bd2;">1</span>  ;;
+            *.bz2)       bunzip2 $<span style="color: #268bd2;">1</span>  ;;
+            *.rar)       rar x $<span style="color: #268bd2;">1</span>    ;;
+            *.gz)        gunzip $<span style="color: #268bd2;">1</span>   ;;
+            *.tar)       tar xf $<span style="color: #268bd2;">1</span>   ;;
+            *.tbz2)      tar xjf $<span style="color: #268bd2;">1</span>  ;;
+            *.tgz)       tar xzf $<span style="color: #268bd2;">1</span>  ;;
+            *.zip)       unzip $<span style="color: #268bd2;">1</span>   ;;
+            *.Z)         uncompress $<span style="color: #268bd2;">1</span>  ;;
+            *.7z)        7z x $<span style="color: #268bd2;">1</span>  ;;
+            *)           <span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">"'$1' cannot be extracted via extract()"</span> ;;
+        <span style="color: #859900; font-weight: bold;">esac</span>
+    <span style="color: #859900; font-weight: bold;">else</span>
+        <span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">"'$1' is not a valid file"</span>
+    <span style="color: #859900; font-weight: bold;">fi</span>
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-history" class="outline-3">
+<h3 id="history"><a name="sec-3-7" id="sec-3-7"></a>history</h3>
+<div class="outline-text-3" id="text-history">
+
+
+   <strong><i>.zsh/history.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">HISTORY</span>
+<span style="color: #268bd2;">HISTSIZE</span>=3000
+<span style="color: #268bd2;">SAVEHIST</span>=3000
+<span style="color: #268bd2;">HISTFILE</span>=~/.zsh_history
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-prompt" class="outline-3">
+<h3 id="prompt"><a name="sec-3-8" id="sec-3-8"></a>prompt</h3>
+<div class="outline-text-3" id="text-prompt">
+
+
+   <strong><i>.zsh/prompt.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">parse_git_branch</span>() {
+    git branch 2&gt; /dev/null | sed -e <span style="color: #2aa198;">'/^[^*]/d'</span> -e <span style="color: #2aa198;">'s/* \(.*\)/\/git:\1/'</span>
+}
+
+<span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">git_prompt_info</span>() {
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">ref</span>=$(git symbolic-ref HEAD 2&gt; /dev/null)
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">gitst</span>=<span style="color: #2aa198;">"$(git status 2&gt; /dev/null)"</span>
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">pairname</span>=$(git config --get user.initials)
+    <span style="color: #859900; font-weight: bold;">if</span> [[ ${<span style="color: #268bd2;">pairname</span>} == <span style="color: #2aa198;">''</span> ]]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #268bd2;">pairname</span>=<span style="color: #2aa198;">'(solo)'</span>
+    <span style="color: #859900; font-weight: bold;">else</span>
+        <span style="color: #268bd2;">pairname</span>=<span style="color: #2aa198;">"($pairname)"</span>
+    <span style="color: #859900; font-weight: bold;">fi</span>
+
+    <span style="color: #859900; font-weight: bold;">if</span> [[ -f .git/MERGE_HEAD ]]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #859900; font-weight: bold;">if</span> [[ ${<span style="color: #268bd2;">gitst</span>} =~ <span style="color: #2aa198;">"unmerged"</span> ]]; <span style="color: #859900; font-weight: bold;">then</span>
+            <span style="color: #268bd2;">gitstatus</span>=<span style="color: #2aa198;">" %{$fg[red]%}unmerged%{$reset_color%}"</span>
+        <span style="color: #859900; font-weight: bold;">else</span>
+            <span style="color: #268bd2;">gitstatus</span>=<span style="color: #2aa198;">" %{$fg[green]%}merged%{$reset_color%}"</span>
+        <span style="color: #859900; font-weight: bold;">fi</span>
+    <span style="color: #859900; font-weight: bold;">elif</span> [[ ${<span style="color: #268bd2;">gitst</span>} =~ <span style="color: #2aa198;">"Changes to be committed"</span> ]]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #268bd2;">gitstatus</span>=<span style="color: #2aa198;">" %{$fg[blue]%}&#9850;%{$reset_color%}"</span>
+    <span style="color: #859900; font-weight: bold;">elif</span> [[ ${<span style="color: #268bd2;">gitst</span>} =~ <span style="color: #2aa198;">"use \"git add"</span> ]]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #268bd2;">gitstatus</span>=<span style="color: #2aa198;">" %{$fg[red]%}&#9763;%{$reset_color%}"</span>
+    <span style="color: #859900; font-weight: bold;">elif</span> [[ -n <span style="color: #6c71c4; font-weight: bold;">`git checkout HEAD 2&gt; /dev/null | grep ahead`</span> ]]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #268bd2;">gitstatus</span>=<span style="color: #2aa198;">" %{$fg[yellow]%}&#9731;%{$reset_color%}"</span>
+    <span style="color: #859900; font-weight: bold;">else</span>
+        <span style="color: #268bd2;">gitstatus</span>=<span style="color: #2aa198;">' '</span>
+    <span style="color: #859900; font-weight: bold;">fi</span>
+    <span style="color: #859900; font-weight: bold;">if</span> [[ -n $<span style="color: #268bd2;">ref</span> ]]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">"%{$fg_bold[green]%}/${ref#refs/heads/}%{$reset_color%}$gitstatus $pairname"</span>
+    <span style="color: #859900; font-weight: bold;">fi</span>
+}
+
+<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">PS1</span>=<span style="color: #2aa198;">'%{$reset_color$fg[gray]%}%2~%{$reset_color$bold_color$fg[green]%}$(git_prompt_info)&gt;%{$reset_color%} '</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-completion" class="outline-3">
+<h3 id="completion"><a name="sec-3-9" id="sec-3-9"></a>completion</h3>
+<div class="outline-text-3" id="text-completion">
+
+
+   <strong><i>.zsh/completion.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #657b83; font-weight: bold;">autoload</span> -U compinit &amp;&amp; compinit
+zmodload -i zsh/complist
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">man zshcontrib</span>
+zstyle <span style="color: #2aa198;">':vcs_info:*'</span> actionformats <span style="color: #2aa198;">'%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '</span>
+zstyle <span style="color: #2aa198;">':vcs_info:*'</span> formats <span style="color: #2aa198;">'%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '</span>
+zstyle <span style="color: #2aa198;">':vcs_info:*'</span> enable git <span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">cvs svn</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Enable completion caching, use rehash to clear</span>
+zstyle <span style="color: #2aa198;">':completion::complete:*'</span> use-cache on
+zstyle <span style="color: #2aa198;">':completion::complete:*'</span> cache-path ~/.zsh/cache/$<span style="color: #268bd2;">HOST</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Fallback to built in ls colors</span>
+zstyle <span style="color: #2aa198;">':completion:*'</span> list-colors <span style="color: #2aa198;">''</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Make the list prompt friendly</span>
+zstyle <span style="color: #2aa198;">':completion:*'</span> list-prompt <span style="color: #2aa198;">'%SAt %p: Hit TAB for more, or the character to insert%s'</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Make the selection prompt friendly when there are a lot of choices</span>
+zstyle <span style="color: #2aa198;">':completion:*'</span> select-prompt <span style="color: #2aa198;">'%SScrolling active: current selection at %p%s'</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Add simple colors to kill</span>
+zstyle <span style="color: #2aa198;">':completion:*:*:kill:*:processes'</span> list-colors <span style="color: #2aa198;">'=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">list of completers to use</span>
+zstyle <span style="color: #2aa198;">':completion:*::::'</span> completer _expand _complete _ignored _approximate
+
+zstyle <span style="color: #2aa198;">':completion:*'</span> menu <span style="color: #268bd2;">select</span>=1 _complete _ignored _approximate
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">insert all expansions for expand completer</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zstyle ':completion:*:expand:*' tag-order all-expansions</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">match uppercase from lowercase</span>
+zstyle <span style="color: #2aa198;">':completion:*'</span> matcher-list <span style="color: #2aa198;">'m:{a-z}={A-Z}'</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">offer indexes before parameters in subscripts</span>
+zstyle <span style="color: #2aa198;">':completion:*:*:-subscript-:*'</span> tag-order indexes parameters
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">formatting and messages</span>
+zstyle <span style="color: #2aa198;">':completion:*'</span> verbose yes
+zstyle <span style="color: #2aa198;">':completion:*:descriptions'</span> format <span style="color: #2aa198;">'%B%d%b'</span>
+zstyle <span style="color: #2aa198;">':completion:*:messages'</span> format <span style="color: #2aa198;">'%d'</span>
+zstyle <span style="color: #2aa198;">':completion:*:warnings'</span> format <span style="color: #2aa198;">'No matches for: %d'</span>
+zstyle <span style="color: #2aa198;">':completion:*:corrections'</span> format <span style="color: #2aa198;">'%B%d (errors: %e)%b'</span>
+zstyle <span style="color: #2aa198;">':completion:*'</span> group-name <span style="color: #2aa198;">''</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ignore completion functions (until the _ignored completer)</span>
+zstyle <span style="color: #2aa198;">':completion:*:functions'</span> ignored-patterns <span style="color: #2aa198;">'_*'</span>
+zstyle <span style="color: #2aa198;">':completion:*:scp:*'</span> tag-order files users <span style="color: #2aa198;">'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'</span>
+zstyle <span style="color: #2aa198;">':completion:*:scp:*'</span> group-order files all-files users hosts-domain hosts-host hosts-ipaddr
+zstyle <span style="color: #2aa198;">':completion:*:ssh:*'</span> tag-order users <span style="color: #2aa198;">'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'</span>
+zstyle <span style="color: #2aa198;">':completion:*:ssh:*'</span> group-order hosts-domain hosts-host users hosts-ipaddr
+zstyle <span style="color: #2aa198;">'*'</span> single-ignored show
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-hooks" class="outline-3">
+<h3 id="hooks"><a name="sec-3-10" id="sec-3-10"></a>hooks</h3>
+<div class="outline-text-3" id="text-hooks">
+
+
+   <strong><i>.zsh/hooks.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">precmd</span> {
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Put the string "hostname::/full/directory/path" in the title bar:</span>
+    <span style="color: #657b83; font-weight: bold;">echo</span> -ne <span style="color: #2aa198;">"\e]2;$PWD\a"</span>
+
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Put the parentdir/currentdir in the tab</span>
+    <span style="color: #657b83; font-weight: bold;">echo</span> -ne <span style="color: #2aa198;">"\e]1;$PWD:h:t/$PWD:t\a"</span>
+}
+
+<span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">set_running_app</span> {
+    printf <span style="color: #2aa198;">"\e]1; $PWD:t:$(history $HISTCMD | cut -b7- ) \a"</span>
+}
+
+<span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">preexec</span> {
+    set_running_app
+}
+
+<span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">postexec</span> {
+    set_running_app
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-command-coloring" class="outline-3">
+<h3 id="command-coloring"><a name="sec-3-11" id="sec-3-11"></a>command-coloring</h3>
+<div class="outline-text-3" id="text-command-coloring">
+
+
+   <strong><i>.zsh/command_coloring.zsh</i></strong>
+
+<pre class="src src-shell-script"><span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">!/usr/bin/</span><span style="color: #859900; font-weight: bold;">env</span><span style="color: #93a1a1;"> zsh</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Copyleft 2010 zsh-syntax-highlighting contributors</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">http://github.com/nicoulaj/zsh-syntax-highlighting</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">All wrongs reserved.</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Token types styles.</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">See http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#SEC135</span>
+<span style="color: #268bd2;">ZLE_RESERVED_WORD_STYLE</span>=<span style="color: #2aa198;">'fg=yellow,bold'</span>
+<span style="color: #268bd2;">ZLE_ALIAS_STYLE</span>=<span style="color: #2aa198;">'fg=green,bold'</span>
+<span style="color: #268bd2;">ZLE_BUILTIN_STYLE</span>=<span style="color: #2aa198;">'fg=green,bold'</span>
+<span style="color: #268bd2;">ZLE_FUNCTION_STYLE</span>=<span style="color: #2aa198;">'fg=green,bold'</span>
+<span style="color: #268bd2;">ZLE_COMMAND_STYLE</span>=<span style="color: #2aa198;">'fg=green,bold'</span>
+<span style="color: #268bd2;">ZLE_PATH_STYLE</span>=<span style="color: #2aa198;">'fg=white,underline'</span>
+<span style="color: #268bd2;">ZLE_COMMAND_UNKNOWN_TOKEN_STYLE</span>=<span style="color: #2aa198;">'fg=red,bold'</span>
+
+<span style="color: #268bd2;">ZLE_HYPHEN_CLI_OPTION</span>=<span style="color: #2aa198;">'fg=yellow,bold'</span>
+<span style="color: #268bd2;">ZLE_DOUBLE_HYPHEN_CLI_OPTION</span>=<span style="color: #2aa198;">'fg=yellow,bold'</span>
+<span style="color: #268bd2;">ZLE_SINGLE_QUOTED</span>=<span style="color: #2aa198;">'fg=magenta,bold'</span>
+<span style="color: #268bd2;">ZLE_DOUBLE_QUOTED</span>=<span style="color: #2aa198;">'fg=magenta,bold'</span>
+<span style="color: #268bd2;">ZLE_BACK_QUOTED</span>=<span style="color: #2aa198;">'fg=cyan,bold'</span>
+<span style="color: #268bd2;">ZLE_GLOBING</span>=<span style="color: #2aa198;">'fg=blue,bold'</span>
+
+<span style="color: #268bd2;">ZLE_DEFAULT</span>=<span style="color: #2aa198;">'fg=white,normal'</span>
+
+<span style="color: #268bd2;">ZLE_TOKENS_FOLLOWED_BY_COMMANDS</span>=(<span style="color: #2aa198;">'|'</span> <span style="color: #2aa198;">'||'</span> <span style="color: #2aa198;">';'</span> <span style="color: #2aa198;">'&amp;'</span> <span style="color: #2aa198;">'&amp;&amp;'</span> <span style="color: #2aa198;">'sudo'</span> <span style="color: #2aa198;">'start'</span> <span style="color: #2aa198;">'time'</span> <span style="color: #2aa198;">'strace'</span> <span style="color: #2aa198;">'noglob'</span> <span style="color: #2aa198;">'command'</span> <span style="color: #2aa198;">'builtin'</span>)
+
+<span style="color: #268bd2;">_check_path</span>() {
+    [[ -z $<span style="color: #268bd2;">arg</span> ]] &amp;&amp; <span style="color: #859900; font-weight: bold;">return</span> 1
+    [[ -e $<span style="color: #268bd2;">arg</span> ]] &amp;&amp; <span style="color: #859900; font-weight: bold;">return</span> 0
+    [[ <span style="color: #b58900; font-weight: bold;">!</span> -e ${<span style="color: #268bd2;">arg</span>:h} ]] &amp;&amp; <span style="color: #859900; font-weight: bold;">return</span> 1
+    [[ ${#<span style="color: #268bd2;">BUFFER</span>} == $<span style="color: #268bd2;">end_pos</span> &amp;&amp; -n $(<span style="color: #657b83; font-weight: bold;">print</span> $<span style="color: #268bd2;">arg</span>*(N)) ]] &amp;&amp; <span style="color: #859900; font-weight: bold;">return</span> 0
+    <span style="color: #859900; font-weight: bold;">return</span> 1
+}
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Recolorize the current ZLE buffer.</span>
+<span style="color: #268bd2;">colorize-zle-buffer</span>() {
+    <span style="color: #657b83; font-weight: bold;">setopt</span> localoptions extendedglob
+    <span style="color: #268bd2;">region_highlight</span>=()
+    <span style="color: #268bd2;">colorize</span>=true
+    <span style="color: #268bd2;">start_pos</span>=0
+    <span style="color: #859900; font-weight: bold;">for</span> arg<span style="color: #859900; font-weight: bold;"> in</span> ${(z)BUFFER}; <span style="color: #859900; font-weight: bold;">do</span>
+        ((<span style="color: #268bd2;">start_pos</span>+=${#<span style="color: #268bd2;">BUFFER</span>[$<span style="color: #268bd2;">start_pos</span>+1,-1]}-${<span style="color: #268bd2;">#</span>${<span style="color: #268bd2;">BUFFER</span>[$<span style="color: #268bd2;">start_pos</span>+1,-1]##[[:space:]]#}}))
+        ((<span style="color: #268bd2;">end_pos</span>=$<span style="color: #268bd2;">start_pos</span>+${#<span style="color: #268bd2;">arg</span>}))
+        <span style="color: #859900; font-weight: bold;">if</span> $<span style="color: #268bd2;">colorize</span>; <span style="color: #859900; font-weight: bold;">then</span>
+            <span style="color: #268bd2;">colorize</span>=false
+            <span style="color: #268bd2;">res</span>=$(<span style="color: #268bd2;">LC_ALL</span>=C builtin type -w $<span style="color: #268bd2;">arg</span> 2&gt;/dev/null)
+            <span style="color: #859900; font-weight: bold;">case</span> $<span style="color: #268bd2;">res</span><span style="color: #859900; font-weight: bold;"> in</span>
+                *<span style="color: #2aa198;">': reserved'</span>)  <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_RESERVED_WORD_STYLE</span>;;
+                *<span style="color: #2aa198;">': alias'</span>)     <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_ALIAS_STYLE</span>;;
+                *<span style="color: #2aa198;">': builtin'</span>)   <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_BUILTIN_STYLE</span>;;
+                *<span style="color: #2aa198;">': function'</span>)  <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_FUNCTION_STYLE</span>;;
+                *<span style="color: #2aa198;">': command'</span>)   <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_COMMAND_STYLE</span>;;
+                *)
+                    <span style="color: #859900; font-weight: bold;">if</span> _check_path; <span style="color: #859900; font-weight: bold;">then</span>
+                        <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_PATH_STYLE</span>
+                    <span style="color: #859900; font-weight: bold;">else</span>
+                        <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_COMMAND_UNKNOWN_TOKEN_STYLE</span>
+                    <span style="color: #859900; font-weight: bold;">fi</span>
+                    ;;
+            <span style="color: #859900; font-weight: bold;">esac</span>
+        <span style="color: #859900; font-weight: bold;">else</span>
+            <span style="color: #859900; font-weight: bold;">case</span> $<span style="color: #268bd2;">arg</span><span style="color: #859900; font-weight: bold;"> in</span>
+                <span style="color: #2aa198;">'--'</span>*) <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_DOUBLE_HYPHEN_CLI_OPTION</span>;;
+                <span style="color: #2aa198;">'-'</span>*) <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_HYPHEN_CLI_OPTION</span>;;
+                <span style="color: #2aa198;">"'"</span>*<span style="color: #2aa198;">"'"</span>) <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_SINGLE_QUOTED</span>;;
+                <span style="color: #2aa198;">'"'</span>*<span style="color: #2aa198;">'"'</span>) <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_DOUBLE_QUOTED</span>;;
+                <span style="color: #2aa198;">'`'</span>*<span style="color: #2aa198;">'`'</span>) <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_BACK_QUOTED</span>;;
+                *<span style="color: #2aa198;">"*"</span>*) <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_GLOBING</span>;;
+                *)
+                    <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_DEFAULT</span>
+                    _check_path &amp;&amp; <span style="color: #268bd2;">style</span>=$<span style="color: #268bd2;">ZLE_PATH_STYLE</span>
+                    ;;
+            <span style="color: #859900; font-weight: bold;">esac</span>
+        <span style="color: #859900; font-weight: bold;">fi</span>
+        <span style="color: #268bd2;">region_highlight</span>+=(<span style="color: #2aa198;">"$start_pos $end_pos $style"</span>)
+        [[ ${<span style="color: #268bd2;">$</span>{<span style="color: #268bd2;">ZLE_TOKENS_FOLLOWED_BY_COMMANDS</span>[(<span style="color: #657b83; font-weight: bold;">r</span>)${<span style="color: #268bd2;">arg</span>//|/<span style="color: #2aa198;">\|</span>}]:-}:+yes} = <span style="color: #2aa198;">'yes'</span> ]] &amp;&amp; <span style="color: #268bd2;">colorize</span>=true
+        <span style="color: #268bd2;">start_pos</span>=$<span style="color: #268bd2;">end_pos</span>
+    <span style="color: #859900; font-weight: bold;">done</span>
+}
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Bind the function to ZLE events.</span>
+<span style="color: #268bd2;">ZLE_COLORED_FUNCTIONS</span>=(
+    self-insert
+    delete-char
+    backward-delete-char
+    kill-word
+    backward-kill-word
+    up-line-or-history
+    down-line-or-history
+    beginning-of-history
+    end-of-history
+    undo
+    redo
+    yank
+)
+
+<span style="color: #859900; font-weight: bold;">for</span> f<span style="color: #859900; font-weight: bold;"> in</span> $<span style="color: #268bd2;">ZLE_COLORED_FUNCTIONS</span>; <span style="color: #859900; font-weight: bold;">do</span>
+    <span style="color: #657b83; font-weight: bold;">eval</span> <span style="color: #2aa198;">"$f() { zle .$f &amp;&amp; colorize-zle-buffer } ; zle -N $f"</span>
+<span style="color: #859900; font-weight: bold;">done</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Expand or complete hack</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">create an expansion widget which mimics the original "expand-or-complete" (you can see the default setup using "zle -l -L")</span>
+zle -C orig-expand-or-complete .expand-or-complete _main_complete
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">use the orig-expand-or-complete inside the colorize function (for some reason, using the ".expand-or-complete" widget doesn't work the same)</span>
+<span style="color: #268bd2;">expand-or-complete</span>() { <span style="color: #657b83; font-weight: bold;">builtin</span> zle orig-expand-or-complete &amp;&amp; colorize-zle-buffer }
+zle -N expand-or-complete
+</pre>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2014-08-16T17:31-0500</p>
+<p class="author">Author: Aaron Bedra</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
