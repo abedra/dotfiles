@@ -7,5 +7,6 @@ export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='3;33'
 export PAGER=most
 export EDITOR="emacs -nw"
-export PKG_CONFIG_PATH=/usr/local/Library/ENV/pkgconfig/10.9
+
 export JAVA_HOME=`/usr/libexec/java_home`
+export $GOPATH=~/src/golang
