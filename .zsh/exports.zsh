@@ -9,4 +9,4 @@ export PAGER=most
 export EDITOR="emacs -nw"
 
 export JAVA_HOME=`/usr/libexec/java_home`
-export $GOPATH=~/src/golang
+export GOPATH=~/src/golang
