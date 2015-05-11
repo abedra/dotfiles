@@ -10,4 +10,4 @@ export EDITOR="emacs -nw"
 export JAVA_HOME=`/usr/libexec/java_home`
 
 export GOPATH=~/src/golang
-export PATH=/usr/local/bin:/usr/local/sbin:$GOPATH/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:~/cov-analysis-macosx-7.6.0/bin:~/.cabal/bin:$GOPATH/bin:$PATH
