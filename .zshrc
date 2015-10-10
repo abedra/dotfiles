@@ -14,3 +14,5 @@ PATH=/usr/local/rvm/bin:$PATH # Add RVM to PATH for scripting
 
 # OPAM configuration
 . /Users/abedra/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
