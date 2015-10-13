@@ -7,7 +7,10 @@ export CLICOLOR=1
 export GREP_COLOR='3;33'
 export PAGER=most
 export EDITOR="emacs -nw"
-#export JAVA_HOME=`/usr/libexec/java_home`
+
+if [[ $(uname) == 'Darwin' ]]; then
+    export JAVA_HOME=`/usr/libexec/java_home`
+fi
 
 export GOPATH=~/src/golang
 export PATH=/usr/local/bin:/usr/local/sbin:~/.cabal/bin:$GOPATH/bin:$PATH
