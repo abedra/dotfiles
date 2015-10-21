@@ -9,9 +9,6 @@ source ~/.zsh/completion.zsh
 source ~/.zsh/zsh_hooks.zsh
 source ~/.zsh/command_coloring.zsh
 
-[[ -s /usr/local/rvm/scripts/rvm ]] && source /usr/local/rvm/scripts/rvm
-PATH=/usr/local/rvm/bin:$PATH # Add RVM to PATH for scripting
-
 # OPAM configuration
 . /Users/abedra/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
