@@ -1,4 +1,4 @@
-export CDPATH=.:~/src:~/src/personal:~/src/opensource:~/src/configs:~/src/groupon:~/Documents
+export CDPATH=.:~/src:~/src/personal:~/src/opensource:~/src/configs:~/src/groupon:~/src/eligible:~/Documents
 
 export TERM=xterm-256color
 #export LSCOLORS=gxfxcxdxbxegedabagacad
