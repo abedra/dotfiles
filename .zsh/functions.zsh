@@ -39,3 +39,7 @@ function extract {
 function dockerenv {
     eval "$(docker-machine env local-fusion)"
 }
+
+function tagit {
+    $(ctags -e -R --languages=ruby --exclude=.git --exclude=log .)
+}
