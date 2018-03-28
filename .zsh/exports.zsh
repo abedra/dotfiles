@@ -1,4 +1,4 @@
-export CDPATH=.:~/src:~/src/personal:~/src/opensource:~/src/configs:~/src/jemurai:~/src/clients
+export CDPATH=.:~/src:~/src/personal:~/src/opensource:~/src/configs:~/src/jemurai:~/src/clients:~/src/mt
 
 export TERM=xterm-256color
 export CLICOLOR=1
