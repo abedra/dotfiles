@@ -43,3 +43,7 @@ function dockerenv {
 function tagit {
     $(ctags -e -R --languages=ruby --exclude=.git --exclude=log .)
 }
+
+function kubenv {
+    eval $(minikube docker-env)
+}
