@@ -10,5 +10,3 @@ source ~/.zsh/zsh_hooks.zsh
 source ~/.zsh/command_coloring.zsh
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-[ -s "/home/abedra/.scm_breeze/scm_breeze.sh" ] && source "/home/abedra/.scm_breeze/scm_breeze.sh"
