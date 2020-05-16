@@ -29,3 +29,5 @@ link_with_backup .gitconfig
 # zsh
 link_with_backup .zsh
 link_with_backup .zshrc
+link_with_backup .tmux.conf
+link_with_backup .gitconfig
