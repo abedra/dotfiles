@@ -33,7 +33,3 @@
         default = tracking
 [github]
         user = abedra
-[diff "ruby"]
-        funcname = ^ *\\(\\(class\\|module\\|def\\) .*\\)
-[core]
-        pager = most +s +'/---'
