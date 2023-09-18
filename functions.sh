@@ -8,6 +8,12 @@ GREEN='\033[1;32m'
 OMZ_DIR=$HOME/.oh-my-zsh
 OMZ_PLUGINS_DIR=$OMZ_DIR/custom/plugins
 OMZ_THEMES_DIR=$OMZ_DIR/custom/themes
+CONFIG_DIR=$HOME/.config
+LOG_FILE=$DOTFILES/install.log
+
+function setup_logging {
+    rm -f $LOG_FILE
+}
 
 function backup {
     local FILE=$1
@@ -28,7 +34,7 @@ function link_with_backup {
 
 function replace_with_symlink {
     local SOURCE=$DOTFILES/$1
-    local TARGET=$2
+    local TARGET=$2 
     rm -rf $TARGET
     ln -sf $SOURCE $TARGET
 }
@@ -45,15 +51,41 @@ function validate_installed {
     fi
 }
 
+function detect_distro {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        DISTRO=$NAME
+    else
+        echo "Unable to detect OS Distro"
+        exit 1
+    fi
+}
+
+function install_packages {
+    printf "Installing packages for ${DISTRO}\t"
+    if [ "$DISTRO" == "Ubuntu" ]; then
+        printf "\t"
+        apt-get update -y >> $LOG_FILE 2>&1
+        xargs apt-get install < ubuntu/packages.list -y >> $LOG_FILE 2>&1
+    elif [ "$DISTRO" == "Arch Linux" ]; then
+        pacman -Sy --noconfirm >> $LOG_FILE 2>&1
+        pacman -S - < arch/packages.list --noconfirm >> $LOG_FILE 2>&1
+    else
+        printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
+        exit 1
+    fi
+    printf "${GREEN}[INSTALLED]${RESET}\n"
+}
+
 function validate_requirements {
     required_commands=(git zsh curl)
 
     for requirement in ${required_commands[@]}; do
         printf "Checking for %s" ${requirement}
         if command -v ${requirement} &> /dev/null; then
-            printf "\t\t${GREEN}[INSTALLED]${RESET}\n"
+            printf "\t\t\t${GREEN}[INSTALLED]${RESET}\n"
         else
-            printf "\t\t${RED}[FAILED]${RESET}\n"
+            printf "\t\t\t${RED}[FAILED]${RESET}\n"
             echo "Install all required programs and try again"
             exit 1
         fi
@@ -62,30 +94,36 @@ function validate_requirements {
 
 function install_omz {
     if [ ! -d "$OMZ_DIR" ]; then
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" > install.log 2>&1
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended >> $LOG_FILE 2>&1
     fi
-    echo -e "Oh My Zsh\t\t\t${GREEN}[INSTALLED]${RESET}"
+    echo -e "Oh My Zsh\t\t\t\t${GREEN}[INSTALLED]${RESET}"
 }
 
 function install_omz_plugins {
-    printf "powerlevel10k\t\t"
+    printf "powerlevel10k\t\t\t"
     if [ ! -d "$OMZ_THEMES_DIR/powerlevel10k" ]; then
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k > install.log 2>&1
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k >> $LOG_FILE 2>&1
     fi
     validate_installed
-    printf "zsh-autosuggestions\t"
+    printf "zsh-autosuggestions\t\t"
     if [ ! -d "$OMZ_PLUGINS_DIR/zsh-autosuggestions" ]; then
-        git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions > install.log 2>&1
+        git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions >> $LOG_FILE 2>&1
     fi
     validate_installed
-    printf "zsh-syntax-highlighting\t"
+    printf "zsh-syntax-highlighting\t\t"
     if [ ! -d "$OMZ_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting > install.log 2>&1
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting >> $LOG_FILE 2>&1
     fi
     validate_installed
+}
+
+function create_required_directories {
+    if [ ! -d "$CONFIG_DIR" ]; then
+        mkdir -p $CONFIG_DIR
+    fi
 }
 
 function footer {
     repeat "-" 35
-    echo -e "\nInstall complete. All logs have been saved to ${DOTFILES}/install.log"
+    echo -e "\nInstall complete. All logs have been saved to ${LOG_FILE}"
 }
