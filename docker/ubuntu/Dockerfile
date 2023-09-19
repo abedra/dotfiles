@@ -12,5 +12,5 @@ WORKDIR /home/appuser/dotfiles
 
 COPY ../../. .
 
-RUN bash install_linux.sh
+RUN bash install.sh
 WORKDIR /home/appuser

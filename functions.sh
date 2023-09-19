@@ -40,7 +40,7 @@ function replace_with_symlink {
 }
 
 function repeat {
-    for i in $(seq 1 $2); do echo -n "$1"; done
+    for i in $(seq 1 $2); do printf "%s" $1; done
 }
 
 function validate_installed {
@@ -62,18 +62,25 @@ function detect_distro {
 }
 
 function install_packages {
-    printf "Installing packages for ${DISTRO}\t"
-    if [ "$DISTRO" == "Ubuntu" ]; then
-        printf "\t"
-        sudo apt-get update -y >> $LOG_FILE 2>&1
-        sudo xargs apt-get install < ubuntu/packages.list -y >> $LOG_FILE 2>&1
-    elif [ "$DISTRO" == "Arch Linux" ]; then
-        sudo pacman -Sy --noconfirm >> $LOG_FILE 2>&1
-        sudo pacman -S - < arch/packages.list --noconfirm >> $LOG_FILE 2>&1
-    else
-        printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
-        exit 1
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        detect_distro
+        printf "Installing packages for ${DISTRO}\t"
+        if [ "$DISTRO" == "Ubuntu" ]; then
+            printf "\t"
+            sudo apt-get update -y >> $LOG_FILE 2>&1
+            sudo xargs apt-get install < ubuntu/packages.list -y >> $LOG_FILE 2>&1
+        elif [ "$DISTRO" == "Arch Linux" ]; then
+            sudo pacman -Sy --noconfirm >> $LOG_FILE 2>&1
+            sudo pacman -S - < arch/packages.list --noconfirm >> $LOG_FILE 2>&1
+        else
+            printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
+            exit 1
+        fi
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        printf "Installing packages for ${OSTYPE}\t"
+        brew install $(<mac/packages.list) >> $LOG_FILE 2>&1
     fi
+    
     printf "${GREEN}[INSTALLED]${RESET}\n"
 }
 
@@ -96,7 +103,7 @@ function install_omz {
     if [ ! -d "$OMZ_DIR" ]; then
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended >> $LOG_FILE 2>&1
     fi
-    echo -e "Oh My Zsh\t\t\t\t${GREEN}[INSTALLED]${RESET}"
+    printf "Oh My Zsh\t\t\t\t${GREEN}[INSTALLED]${RESET}\n"
 }
 
 function install_omz_plugins {
@@ -125,5 +132,5 @@ function create_required_directories {
 
 function footer {
     repeat "-" 35
-    echo -e "\nInstall complete. All logs have been saved to ${LOG_FILE}"
+    printf "\nInstall complete. All logs have been saved to ${LOG_FILE}\n"
 }

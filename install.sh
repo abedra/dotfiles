@@ -6,7 +6,6 @@ set -o errexit
 source $(pwd)/functions.sh
 
 setup_logging
-detect_distro
 install_packages
 
 validate_requirements
