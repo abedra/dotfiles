@@ -17,6 +17,8 @@ create_required_directories
 
 link_with_backup .gitconfig
 link_with_backup .tmux.conf
+link_with_backup .zshrc
+link_with_backup .p10k.zsh
 
 replace_with_symlink config/alacritty $HOME/.config/alacritty
 
