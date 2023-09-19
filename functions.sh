@@ -65,11 +65,11 @@ function install_packages {
     printf "Installing packages for ${DISTRO}\t"
     if [ "$DISTRO" == "Ubuntu" ]; then
         printf "\t"
-        apt-get update -y >> $LOG_FILE 2>&1
-        xargs apt-get install < ubuntu/packages.list -y >> $LOG_FILE 2>&1
+        sudo apt-get update -y >> $LOG_FILE 2>&1
+        sudo xargs apt-get install < ubuntu/packages.list -y >> $LOG_FILE 2>&1
     elif [ "$DISTRO" == "Arch Linux" ]; then
-        pacman -Sy --noconfirm >> $LOG_FILE 2>&1
-        pacman -S - < arch/packages.list --noconfirm >> $LOG_FILE 2>&1
+        sudo pacman -Sy --noconfirm >> $LOG_FILE 2>&1
+        sudo pacman -S - < arch/packages.list --noconfirm >> $LOG_FILE 2>&1
     else
         printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
         exit 1
