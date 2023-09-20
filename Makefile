@@ -13,3 +13,11 @@ ubuntu:
 .PHONY: run-ubuntu
 run-ubuntu:
 	docker run -it ubuntu-dots /usr/bin/zsh
+
+.PHONY: rocky
+rocky:
+	docker build -t rocky-dots -f docker/rocky/Dockerfile .
+
+.PHONY: run-rocky
+run-rocky:
+	docker run -it rocky-dots /usr/bin/zsh

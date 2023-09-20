@@ -72,6 +72,8 @@ function install_packages {
         elif [ "$DISTRO" == "Arch Linux" ]; then
             sudo pacman -Sy --noconfirm >> $LOG_FILE 2>&1
             sudo pacman -S - < arch/packages.list --noconfirm >> $LOG_FILE 2>&1
+        elif [ "$DISTRO" == "Rocky Linux" ]; then
+            sudo dnf install -y $(<rocky/packages.list) >> $LOG_FILE 2>&1
         else
             printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
             exit 1
