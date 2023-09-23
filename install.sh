@@ -20,5 +20,6 @@ link_with_backup .zshrc
 link_with_backup .p10k.zsh
 
 replace_with_symlink config/alacritty $HOME/.config/alacritty
+replace_with_symlink config/neofetch  $HOME/.config/neofetch
 
 footer
