@@ -61,6 +61,16 @@ function detect_distro {
     fi
 }
 
+function install_yay {
+    if [ ! -d "yay" ]; then
+        sudo pacman -S --needed base-devel
+        git clone https://aur.archlinux.org/yay.git
+        cd yay
+        makepkg -si
+        cd ..
+    fi
+}
+
 function install_packages {
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         detect_distro
@@ -68,12 +78,13 @@ function install_packages {
         if [ "$DISTRO" == "Ubuntu" ]; then
             printf "\t"
             sudo apt-get update -y >> $LOG_FILE 2>&1
-            sudo xargs apt-get install < ubuntu/packages.list -y >> $LOG_FILE 2>&1
+            sudo xargs apt-get install < ubuntu/$1 -y >> $LOG_FILE 2>&1
         elif [ "$DISTRO" == "Arch Linux" ]; then
             sudo pacman -Sy --noconfirm >> $LOG_FILE 2>&1
-            sudo pacman -S - < arch/packages.list --noconfirm >> $LOG_FILE 2>&1
+            sudo pacman -S - < arch/$1 --noconfirm >> $LOG_FILE 2>&1
+	    install_yay
         elif [ "$DISTRO" == "Rocky Linux" ]; then
-            sudo dnf install -y $(<rocky/packages.list) >> $LOG_FILE 2>&1
+            sudo dnf install -y $(<rocky/$1) >> $LOG_FILE 2>&1
         else
             printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
             exit 1
@@ -83,6 +94,12 @@ function install_packages {
         brew install $(<mac/packages.list) >> $LOG_FILE 2>&1
     fi
     
+    printf "${GREEN}[INSTALLED]${RESET}\n"
+}
+
+function install_extra_packages {
+    printf "Installing extra packages for ${DISTRO}\t"
+    yay -S - < arch/$1 --noconfirm >> $LOG_FILE 2>&1
     printf "${GREEN}[INSTALLED]${RESET}\n"
 }
 
