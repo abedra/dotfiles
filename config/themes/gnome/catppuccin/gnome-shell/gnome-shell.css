@@ -2261,7 +2261,7 @@
 	font-feature-settings: "tnum";
 	transition-duration: 250ms;
 	font-size: 15pt;
-	border-radius: 7px; height: 30px; margin-top: 0px; margin-right: 10px; margin-bottom: 5px; margin-left: 10px;
+	border-radius: 7px; height: 40px; margin-top: 10px; margin-right: 10px; margin-bottom: 5px; margin-left: 10px;
   }
   
   #panel .panel-corner {

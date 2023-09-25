@@ -28,6 +28,8 @@ if [ "$DESKTOP" == "true" ]; then
     install_packages desktop.list
     install_extra_packages desktop-extra.list
     replace_with_symlink config/alacritty $HOME/.config/alacritty
+    mkdir $HOME/.themes
+    replace_with_symlink config/themes/gnome/catppuccin $HOME/.themes/catpuccin
 fi
 
 footer
