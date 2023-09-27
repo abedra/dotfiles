@@ -143,6 +143,10 @@ function install_omz_plugins {
     validate_installed
 }
 
+install_astronvim {
+    git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+}
+
 function create_required_directories {
     if [ ! -d "$CONFIG_DIR" ]; then
         mkdir -p $CONFIG_DIR
