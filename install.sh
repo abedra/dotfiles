@@ -30,6 +30,7 @@ if [ "$DESKTOP" == "true" ]; then
     replace_with_symlink config/alacritty $HOME/.config/alacritty
     mkdir $HOME/.themes
     replace_with_symlink config/themes/gnome/catppuccin $HOME/.themes/catpuccin
+    cp -r config/themes/gnome/catppuccin/gtk-4.0/* $HOME/.config/gtk-4.0
 fi
 
 footer

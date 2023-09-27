@@ -5,3 +5,4 @@
 * [Logo Menu](https://extensions.gnome.org/extension/4451/logo-menu/)
 * [Space Bar](https://extensions.gnome.org/extension/5090/space-bar/)
 * [Top Bar Organizer](https://extensions.gnome.org/extension/4356/top-bar-organizer/)
+* [Useless Gaps](https://extensions.gnome.org/extension/4684/useless-gaps/)
