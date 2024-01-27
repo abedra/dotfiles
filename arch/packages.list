@@ -13,3 +13,9 @@ fzf
 python-pip
 cmake
 btop
+fd
+lazygit
+wget
+tree-sitter
+tree-sitter-cli
+python-pynvim
