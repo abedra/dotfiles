@@ -82,7 +82,7 @@ function install_packages {
         elif [ "$DISTRO" == "Arch Linux" ]; then
             sudo pacman -Sy --noconfirm >> $LOG_FILE 2>&1
             sudo pacman -S - < arch/$1 --noconfirm >> $LOG_FILE 2>&1
-	    install_yay
+      	    install_yay
         elif [ "$DISTRO" == "Rocky Linux" ]; then
             sudo dnf install -y $(<rocky/$1) >> $LOG_FILE 2>&1
         else
@@ -145,6 +145,11 @@ function install_omz_plugins {
 
 install_astronvim {
     git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+}
+
+install_lazyvim {
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    rm -rf ~/.config/nvim/.git
 }
 
 function create_required_directories {
