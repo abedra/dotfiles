@@ -2,3 +2,10 @@ git
 zsh
 curl
 tmux
+fish
+build-essential
+ripgrep
+fd-find
+unzip
+npm
+python3-pip
