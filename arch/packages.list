@@ -19,3 +19,6 @@ wget
 tree-sitter
 tree-sitter-cli
 python-pynvim
+fish
+npm
+xclip

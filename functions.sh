@@ -11,6 +11,7 @@ OMZ_THEMES_DIR=$OMZ_DIR/custom/themes
 CONFIG_DIR=$HOME/.config
 LOG_FILE=$DOTFILES/install.log
 LOCALRC_FILE=$HOME/.localrc
+NVIM_DIR=~/.config/nvim
 
 function setup_logging {
 	rm -f $LOG_FILE
@@ -149,8 +150,17 @@ function install_astronvim {
 }
 
 function install_lazyvim {
-	git clone https://github.com/LazyVim/starter ~/.config/nvim
-	rm -rf ~/.config/nvim/.git
+	if [ ! -d "$NVIM_DIR" ]; then
+		git clone https://github.com/LazyVim/starter ~/.config/nvim
+		rm -rf ~/.config/nvim/.git
+	fi
+}
+
+function nvim_cleanup {
+	rm -rf ~/.local/share/nvim
+	rm -rf ~/.local/state/nvim
+	rm -rf ~/.cache/nvim
+	rm -rf ~/.config/nvim
 }
 
 function create_localrc {
