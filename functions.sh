@@ -11,7 +11,8 @@ OMZ_THEMES_DIR=$OMZ_DIR/custom/themes
 CONFIG_DIR=$HOME/.config
 LOG_FILE=$DOTFILES/install.log
 LOCALRC_FILE=$HOME/.localrc
-NVIM_DIR=~/.config/nvim
+NVIM_DIR=$HOME/.config/nvim
+TMUX_DIR=$HOME/.tmux
 
 function setup_logging {
 	rm -f $LOG_FILE
@@ -145,10 +146,6 @@ function install_omz_plugins {
 	validate_installed
 }
 
-function install_astronvim {
-	git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
-}
-
 function install_lazyvim {
 	if [ ! -d "$NVIM_DIR" ]; then
 		git clone https://github.com/LazyVim/starter ~/.config/nvim
@@ -163,9 +160,15 @@ function nvim_cleanup {
 	rm -rf ~/.config/nvim
 }
 
+function install_tpm {
+	if [ ! -d "$TMUX_DIR" ]; then
+		mkdir -p $TMUX_DIR/plugins
+		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	fi
+}
+
 function create_localrc {
 	touch $LOCALRC_FILE
-	echo "source $HOME/.localrc" >>$HOME/.zshrc
 }
 
 function create_required_directories {

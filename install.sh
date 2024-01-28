@@ -16,6 +16,7 @@ install_omz
 install_omz_plugins
 create_required_directories
 install_lazyvim
+install_tpm
 
 link_with_backup .gitconfig
 link_with_backup .tmux.conf

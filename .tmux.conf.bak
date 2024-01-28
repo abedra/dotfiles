@@ -1,3 +1,4 @@
+# change leader key
 unbind C-b
 
 set -g prefix C-j
@@ -57,11 +58,21 @@ bind l select-pane -R
 bind C-j last-window   # Jump to last active window
 bind w display-panes # display visible indicator of each pane
 
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'dracula/tmux'
+# Statusbar settings
+ set -g status-keys vi
+ set -g display-time 2000 # How long messages are displayed for
+ set-option -g status-fg colour15
+ set-option -g status-bg black
+ setw -g window-status-current-format '(#[fg=red]#I#[default] #W#F)'
+ setw -g window-status-format '(#[fg=yellow]#I#[default] #W#F)'
+ set-option -g status-left ' ❐ #[fg=red]#S#[default] ▐'
+ set-option -g status-right '▐ ⌚ #[fg=green]#(date "+%H:%M")#[default] ▐ #[fg=colour210]#(whoami)@#H#[default]'
+ set-option -g status-right-length 1000
+ set-option -g status-left-length 60
 
-set -g @dracula-show-powerline true
-set -g @dracula-plugins "cpu-usage ram-usage"
-set -g status-position top
+# https://github.com/sjl/vitality.vim/issues/8#issuecomment-7664649
+set-option -g terminal-overrides '*88col*:colors=88,*256col*:colors=256,xterm*:XT:Ms=\E]52;%p1%s;%p2%s\007:Cc=\E]12;%p1%s\007:Cr=\E]112\007:Cs=\E]50;CursorShape=%?%p1%{3}%<%t%{0}%e%p1%{2}%-%;%d\007'
+set -sg escape-time 0 # needed to distinguish between ESC and Meta in emacs
 
-run '~/.tmux/plugins/tpm/tpm'
+bind C-c run "tmux save-buffer - | pbcopy"
+bind C-v run "pbpaste | tmux load-buffer - && tmux paste-buffer"
