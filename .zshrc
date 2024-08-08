@@ -6,6 +6,7 @@ SAVEHIST=10000
 setopt appendhistory
 setopt autocd
 alias ls="ls --color=auto"
+export EDITOR=nvim
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PATH=~/.local/bin:/usr/local/bin:$PATH
