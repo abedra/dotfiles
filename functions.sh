@@ -118,7 +118,7 @@ function validate_requirements {
   done
 }
 
-function install_omz_plugins {
+function install_zsh_plugins {
   printf "zsh-autosuggestions\t\t"
   if [ ! -d "~.zsh/zsh-autosuggestions" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions >>$LOG_FILE 2>&1

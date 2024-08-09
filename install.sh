@@ -12,8 +12,7 @@ install_packages packages.list
 
 validate_requirements
 
-install_omz
-install_omz_plugins
+install_zsh_plugins
 create_required_directories
 install_lazyvim
 install_tpm
