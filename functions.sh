@@ -91,6 +91,7 @@ function install_packages {
       install_yay
     elif [ "$DISTRO" == "Rocky Linux" ]; then
       sudo dnf install -y $(<rocky/$1) >>$LOG_FILE 2>&1
+      install_starship
     else
       printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
       exit 1
