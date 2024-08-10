@@ -63,17 +63,21 @@ function detect_distro {
 
 function install_yay {
   if [ ! -d "yay" ]; then
-    sudo pacman -S --noconfirm --needed base-devel
-    git clone https://aur.archlinux.org/yay.git
+    printf "Installing yay\t\t\t"
+    sudo pacman -S --noconfirm --needed base-devel >>$LOG_FILE 2>&1
+    git clone https://aur.archlinux.org/yay.git >>$LOG_FILE 2>&1
     cd yay
-    makepkg -si --noconfirm
+    makepkg -si --noconfirm >>$LOG_FILE 2>&1
     cd ..
   fi
+  validate_installed
 }
 
 function install_starship {
+  printf "Installing starship\t\t"
   mkdir -p ~/.local/bin
-  curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
+  curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin >>$LOG_FILE 2>&1
+  validate_installed
 }
 
 function install_packages {
@@ -84,13 +88,16 @@ function install_packages {
       printf "\t"
       sudo apt-get update -y >>$LOG_FILE 2>&1
       sudo xargs apt-get install -y <ubuntu/$1 >>$LOG_FILE 2>&1
+      printf "${GREEN}[INSTALLED]${RESET}\n"
       install_starship
     elif [ "$DISTRO" == "Arch Linux" ]; then
       sudo pacman -Sy --noconfirm >>$LOG_FILE 2>&1
       sudo pacman -S - --noconfirm <arch/$1 >>$LOG_FILE 2>&1
+      printf "${GREEN}[INSTALLED]${RESET}\n"
       install_yay
     elif [ "$DISTRO" == "Rocky Linux" ]; then
       sudo dnf install -y $(<rocky/$1) >>$LOG_FILE 2>&1
+      printf "${GREEN}[INSTALLED]${RESET}\n"
       install_starship
     else
       printf "${RED}[FAILED]${RESET} - Unable to detect package manager\n"
@@ -99,9 +106,8 @@ function install_packages {
   elif [[ "$OSTYPE" == "darwin"* ]]; then
     printf "Installing packages for ${OSTYPE}\t"
     brew install $(<mac/packages.list) >>$LOG_FILE 2>&1
+    printf "${GREEN}[INSTALLED]${RESET}\n"
   fi
-
-  printf "${GREEN}[INSTALLED]${RESET}\n"
 }
 
 function install_extra_packages {
@@ -126,12 +132,10 @@ function validate_requirements {
 }
 
 function install_zsh_plugins {
-  printf "zsh-autosuggestions\t\t"
+  printf "Installing zsh plugins\t\t"
   if [ ! -d "~.zsh/zsh-autosuggestions" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions >>$LOG_FILE 2>&1
   fi
-  validate_installed
-  printf "zsh-syntax-highlighting\t\t"
   if [ ! -d "~.zsh/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting >>$LOG_FILE 2>&1
   fi
@@ -139,10 +143,12 @@ function install_zsh_plugins {
 }
 
 function install_lazyvim {
+  printf "Installing lazyvim\t\t"
   if [ ! -d "$NVIM_DIR" ]; then
-    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    git clone https://github.com/LazyVim/starter ~/.config/nvim >>$LOG_FILE 2>&1
     rm -rf ~/.config/nvim/.git
   fi
+  validate_installed
 }
 
 function nvim_cleanup {
@@ -153,17 +159,21 @@ function nvim_cleanup {
 }
 
 function install_tpm {
+  printf "Installing tmux plugin manager\t"
   if [ ! -d "$TMUX_DIR" ]; then
     mkdir -p $TMUX_DIR/plugins
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm >>$LOG_FILE 2>&1
   fi
+  validate_installed
 }
 
 function install_scm_breeze {
+  printf "Installing scm_breeze\t\t"
   if [ ! -d "$HOME/.scm_breeze" ]; then
-    git clone https://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
-    sh ~/.scm_breeze/install.sh
+    git clone https://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze >>$LOG_FILE 2>&1
+    sh ~/.scm_breeze/install.sh >>$LOG_FILE 2>&1
   fi
+  validate_installed
 }
 
 function create_localrc {
