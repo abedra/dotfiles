@@ -15,3 +15,5 @@ fish
 fd
 gnu-sed
 wget
+wezterm
+starship
