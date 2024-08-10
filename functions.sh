@@ -63,12 +63,17 @@ function detect_distro {
 
 function install_yay {
   if [ ! -d "yay" ]; then
-    sudo pacman -S --needed base-devel
+    sudo pacman -S --noconfirm --needed base-devel
     git clone https://aur.archlinux.org/yay.git
     cd yay
-    makepkg -si
+    makepkg -si --noconfirm
     cd ..
   fi
+}
+
+function install_starship {
+  mkdir -p ~/.local/bin
+  curl -sS https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
 }
 
 function install_packages {
@@ -79,6 +84,7 @@ function install_packages {
       printf "\t"
       sudo apt-get update -y >>$LOG_FILE 2>&1
       sudo xargs apt-get install -y <ubuntu/$1 >>$LOG_FILE 2>&1
+      install_starship
     elif [ "$DISTRO" == "Arch Linux" ]; then
       sudo pacman -Sy --noconfirm >>$LOG_FILE 2>&1
       sudo pacman -S - --noconfirm <arch/$1 >>$LOG_FILE 2>&1
@@ -154,8 +160,8 @@ function install_tpm {
 
 function install_scm_breeze {
   if [ ! -d "$HOME/.scm_breeze" ]; then
-    git clone git://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
-    ~/.scm_breeze/install.sh
+    git clone https://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze
+    sh ~/.scm_breeze/install.sh
   fi
 }
 

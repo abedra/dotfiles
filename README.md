@@ -1,8 +1,6 @@
-dotfiles
-========
+# dotfiles
 
 My System Configuration Files
-
 
 ## Gnome Extensions
 
