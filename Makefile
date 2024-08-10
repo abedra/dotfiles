@@ -1,3 +1,5 @@
+export DOCKER_BUILDKIT := 1
+
 .PHONY: arch
 arch:
 	docker build -t arch-dots -f docker/arch/Dockerfile .
