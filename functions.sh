@@ -107,6 +107,7 @@ function install_packages {
     printf "Installing packages for ${OSTYPE}\t"
     brew install $(<mac/packages.list) >>$LOG_FILE 2>&1
     printf "${GREEN}[INSTALLED]${RESET}\n"
+    install_aerospace
   fi
 }
 
@@ -174,6 +175,12 @@ function install_scm_breeze {
     git clone https://github.com/ndbroadbent/scm_breeze.git ~/.scm_breeze >>$LOG_FILE 2>&1
     sh ~/.scm_breeze/install.sh >>$LOG_FILE 2>&1
   fi
+  validate_installed
+}
+
+function install_aerospace {
+  printf "Installing aerospace\t\t"
+  brew install --cask nikitabobko/tap/aerospace >>$LOG_FILE 2>&1
   validate_installed
 }
 
