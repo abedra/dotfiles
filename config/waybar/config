@@ -1,0 +1,108 @@
+{
+    "layer": "top",
+    "modules-left": [
+        "custom/launcher",
+        "hyprland/workspaces",
+        "cpu",
+        "memory",
+        "custom/media"
+    ],
+    "modules-right": [
+        "clock",
+        "custom/updates",
+        "backlight",
+        "pulseaudio",
+        "battery",
+        "network",
+        "tray"
+    ],
+    "pulseaudio": {
+        "tooltip": false,
+        "scroll-step": 5,
+        "format": "{icon} {volume}%",
+        "format-muted": "{icon} {volume}%",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "format-icons": {
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "network": {
+        "tooltip": false,
+        "format-wifi": "  {essid}",
+        "format-ethernet": ""
+    },
+    "backlight": {
+        "tooltip": false,
+        "format": " {}%",
+        "interval": 1,
+        "on-scroll-up": "light -A 5",
+        "on-scroll-down": "light -U 5"
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%H:%M %m/%d/%Y}"
+    },
+    "cpu": {
+        "interval": 15,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "custom/launcher": {
+        "format": " ",
+        "on-click": "wofi --show drun",
+        "on-click-right": "killall wofi"
+    },
+    "custom/media": {
+        "exec": "/usr/bin/python3 /home/abedra/.config/waybar/mediaplayer.py --player spotify",
+        "format": "{}",
+        "return-type": "json",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next",
+        "max-length": 45
+    },
+    "hyprland/workspaces": {
+        "format": "{name}: {icon}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "active": "",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "*": 5
+        }
+    }
+}
