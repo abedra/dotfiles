@@ -1,6 +1,8 @@
 FROM archlinux:base
 
-RUN pacman -Sy --noconfirm
+RUN pacman-key --init
+RUN pacman -Sy archlinux-keyring --noconfirm
+RUN pacman -Syu --noconfirm
 RUN pacman -S --noconfirm sudo zsh
 
 RUN useradd -ms /usr/bin/zsh appuser

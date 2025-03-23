@@ -17,6 +17,7 @@ create_required_directories
 install_lazyvim
 install_tpm
 install_scm_breeze
+install_starship
 
 link_with_backup .gitconfig
 link_with_backup .tmux.conf

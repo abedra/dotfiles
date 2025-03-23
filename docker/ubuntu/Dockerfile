@@ -1,7 +1,9 @@
 FROM ubuntu:22.04
 
 RUN apt-get update -y
-RUN apt-get install sudo -y
+RUN apt-get install sudo software-properties-common -y
+RUN add-apt-repository ppa:neovim-ppa/unstable -y
+RUN apt-get update -y
 
 RUN useradd -ms /usr/bin/zsh appuser
 RUN usermod -aG sudo appuser
