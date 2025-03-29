@@ -33,6 +33,7 @@ if [ "$DESKTOP" == "true" ]; then
   install_packages desktop.list
   install_extra_packages desktop-extra.list
   replace_with_symlink config/wezterm $HOME/.config/wezterm
+  replace_with_symlink config/ghostty $HOME/.config/ghostty
 fi
 
 footer
