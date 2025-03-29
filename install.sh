@@ -23,7 +23,7 @@ link_with_backup .gitconfig
 link_with_backup .tmux.conf
 link_with_backup .zshrc
 
-replace_with_symlink config/starship.toml $HOME/.config/starship.toml
+replace_with_symlink config/starship/starship.toml $HOME/.config/starship.toml
 replace_with_symlink config/neofetch $HOME/.config/neofetch
 
 create_localrc
